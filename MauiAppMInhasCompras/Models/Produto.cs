@@ -3,13 +3,13 @@
 namespace MauiAppMinhasCompras.Models
 {
 
-    internal class Produto
+    public class Produto
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey, AutoIncrement] // que vem do SQLite
         public int Id { get; set; }
-        public string Descricao { get; set; }
-        public string Quantidade { get; set; }
-        public string Preco { get; set; }
+        public string Descricao { get; set; }  
+        public double Quantidade { get; set; }
+        public double Preco { get; set; }
 
     }
 }
