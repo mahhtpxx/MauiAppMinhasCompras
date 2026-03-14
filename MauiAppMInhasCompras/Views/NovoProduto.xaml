@@ -12,10 +12,10 @@
         <Label Text="Descrição do Produto:" />
         <Entry x:Name="txt_descricao" />
 
-        <Label Text="Descrição do Produto:" />
+        <Label Text="Quantidade do Produto:" />
         <Entry x:Name="txt_quantidade" Keyboard="Numeric"/>
 
-        <Label Text="Descrição do Produto:" />
+        <Label Text="Preço do Produto:" />
         <Entry x:Name="txt_preco" Keyboard="Numeric"/>
     </VerticalStackLayout>
 </ContentPage>
