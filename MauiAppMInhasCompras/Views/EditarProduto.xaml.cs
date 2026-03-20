@@ -1,3 +1,5 @@
+﻿using MauiAppMinhasCompras.Models;
+
 namespace MauiAppMinhasCompras.Views;
 
 public partial class EditarProduto : ContentPage
@@ -6,4 +8,29 @@ public partial class EditarProduto : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private async void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+        try
+        {          //cria variável   //ele é super génerico, por isso temos que defini-ló como Produto
+            Produto produto_anexado = BindingContext as Produto;
+
+            Produto p = new Produto
+            {        //usamos o binding aqui
+                Id = produto_anexado.Id,
+                Descricao = txt_descricao.Text,
+                Quantidade = Convert.ToDouble(txt_quantidade.Text),
+                Preco = Convert.ToDouble(txt_preco.Text),
+            };
+
+            await App.Db.Update(p);
+            await DisplayAlert("Sucesso! (*^▽^*)", "Ação de Atualização Realizada", "Ok");
+            await Navigation.PopAsync(); //para voltar para a lista de produtos
+
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops..", ex.Message, "Fechar");
+        }
+    }
 }
