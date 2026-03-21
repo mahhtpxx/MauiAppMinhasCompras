@@ -21,7 +21,7 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            lista.Clear();
+            lista.Clear();  // para limpar e não deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.GetAll();
 
@@ -52,7 +52,7 @@ public partial class ListaProduto : ContentPage
         {
             string q = e.NewTextValue;
 
-            lista.Clear(); // para limpara e não deixar amontuado todos os itens
+            lista.Clear(); // para limpar e não deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.Search(q);
 
@@ -72,7 +72,7 @@ public partial class ListaProduto : ContentPage
             double soma = lista.Sum(i => i.Total);
             //sum:ação de somar
             string msg = $"O total é {soma:C}";
-            //Reconhe que é em reais R$
+                                           //Reconhe que é em reais R$
             DisplayAlert("Total dos Produtos", msg, "Ok");
         }
         catch (Exception ex)

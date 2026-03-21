@@ -14,7 +14,7 @@
         <SearchBar x:Name="txt_search" 
                    Placeholder="Busca de Produtos" 
                    TextChanged="txt_search_TextChanged"/>
-        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
+        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected"> <!--criamos o item selected para progamarmos editar-->
             <ListView.Header>
                 <Grid ColumnDefinitions="*, *, *, *, *">
                     <Label Grid.Column="0" Text="ID"/>
