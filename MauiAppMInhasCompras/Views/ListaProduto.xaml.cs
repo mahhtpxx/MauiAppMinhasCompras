@@ -52,6 +52,8 @@ public partial class ListaProduto : ContentPage
         {
             string q = e.NewTextValue;
 
+            lst_produtos.IsRefreshing = true;
+
             lista.Clear(); // para limpar e não deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.Search(q);
@@ -61,6 +63,10 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Ops...", ex.Message, "Fechar");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false; // para tirar o circulo de carregamento
         }
 
     }
@@ -124,4 +130,23 @@ public partial class ListaProduto : ContentPage
         }
     }
 
+    private async void lst_produtos_Refreshing(object sender, EventArgs e)
+    {
+        try
+        {
+            lista.Clear();  // para limpar e não deixar amontuado todos os itens
+
+            List<Produto> tmp = await App.Db.GetAll();
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops...", ex.Message, "Fechar");
+        } 
+        finally
+        {
+            lst_produtos.IsRefreshing = false; // para tirar o circulo de carregamento
+        }
+    }
 }
