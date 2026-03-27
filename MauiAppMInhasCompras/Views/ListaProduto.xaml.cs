@@ -1,4 +1,4 @@
-using MauiAppMinhasCompras.Models;
+Ôªøusing MauiAppMinhasCompras.Models;
 using System.Collections.ObjectModel;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            lista.Clear();  // para limpar e n„o deixar amontuado todos os itens
+            lista.Clear();  // para limpar e n√£o deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.GetAll();
 
@@ -54,7 +54,7 @@ public partial class ListaProduto : ContentPage
 
             lst_produtos.IsRefreshing = true;
 
-            lista.Clear(); // para limpar e n„o deixar amontuado todos os itens
+            lista.Clear(); // para limpar e n√£o deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.Search(q);
 
@@ -71,21 +71,31 @@ public partial class ListaProduto : ContentPage
 
     }
 
-    private void ToolbarItem_Clicked_1(object sender, EventArgs e)
+    private async void ToolbarItem_Clicked_1(object sender, EventArgs e)
     {
         try
-        {   // express„o lambida: para cada item na lista, quero somar atravÈs do total 
-            double soma = lista.Sum(i => i.Total);
-            //sum:aÁ„o de somar
-            string msg = $"O total È {soma:C}";
-                                           //Reconhe que È em reais R$
-            DisplayAlert("Total dos Produtos", msg, "Ok");
+        {
+            // pega todos os produtos do banco
+            List<Produto> lista = await App.Db.GetAll();
+
+            // agrupa os produtos pela categoria (tipo separar por caixinhas)
+            var relatorio = lista
+                .GroupBy(p => p.Categoria) // agrupa por categoria
+                .Select(g => $"{g.Key}: R$ {g.Sum(x => x.Total):F2}");
+            // g.Key = nome da categoria
+            // g.Sum = soma os totais daquela categoria
+
+            // junta tudo em uma mensagem s√≥
+            string mensagem = string.Join("\n", relatorio);
+
+            // mostra na tela (o famoso popup)
+            await DisplayAlert("Relat√≥rio por Categoria", mensagem, "OK");
         }
         catch (Exception ex)
         {
-            DisplayAlert("Ops...", ex.Message, "Fechar");
+            // caso d√™ ruim (porque sempre existe essa possibilidade n√© üôÑ)
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
-
     }
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
@@ -94,14 +104,14 @@ public partial class ListaProduto : ContentPage
         {
             MenuItem selecionado = sender as MenuItem; // Sender tem certeza da linha (ou produto)
                                                        // que estamos selecionando para excluir
-            Produto p = selecionado.BindingContext as Produto; //È aqui tem certeza de qual produto iremos remover
+            Produto p = selecionado.BindingContext as Produto; //√© aqui tem certeza de qual produto iremos remover
 
             bool confirm = await DisplayAlert(
-                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "N„o"); //pergunta ao usu·rio se deseja fazer essa aÁ„o
+                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "N√£o"); //pergunta ao usu√°rio se deseja fazer essa a√ß√£o
 
             if (confirm)
             {
-                await App.Db.Delete(p.Id); //se for excluÌdo (true), ele vai tirar da lista(View) e do SQL
+                await App.Db.Delete(p.Id); //se for exclu√≠do (true), ele vai tirar da lista(View) e do SQL
                 lista.Remove(p);
             }
         }
@@ -115,7 +125,7 @@ public partial class ListaProduto : ContentPage
     private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         try
-        { //navega para a p·gina de editar o produto
+        { //navega para a p√°gina de editar o produto
             Produto p = e.SelectedItem as Produto;
 
             Navigation.PushAsync(new Views.EditarProduto
@@ -134,7 +144,7 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            lista.Clear();  // para limpar e n„o deixar amontuado todos os itens
+            lista.Clear();  // para limpar e n√£o deixar amontuado todos os itens
 
             List<Produto> tmp = await App.Db.GetAll();
 
