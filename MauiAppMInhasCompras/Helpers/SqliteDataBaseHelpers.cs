@@ -41,7 +41,7 @@ namespace MauiAppMinhasCompras.Helpers
         {
             string sql = "SELECT * FROM Produto Where descricao LIKE ? OR Categoria LIKE ?";
 
-            return _conn.QueryAsync<Produto>(sql);
+            return _conn.QueryAsync<Produto>(sql, "%" + q + "%", "%" + q + "%");
         }
     }
 }
